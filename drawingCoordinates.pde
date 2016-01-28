@@ -1,17 +1,23 @@
 //testing draw function
 
 Avatar av;
+int x = 0;
 
 void setup() {
   size(1024, 768);
   noStroke();
   av = new Avatar("cara1");
+  av.rotateAvatar(60);
+  println(av.getAngleAvatar());
 }
 
 void draw() {
   background(200);
   drawCuadrantes();
-  av.draw(width/2, height/4);
+  //av.draw(width/2, height/4);
+  av.drawPivots(width/2, height/2);
+  //av.drawPivots(width/2 + x, height/2);
+  //x++;
 }
 
 void drawCuadrantes() {
