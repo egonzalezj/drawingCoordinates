@@ -2,8 +2,9 @@ final int Joints = 3;
 
 class Avatar {
   private  PShape     puppet;
-  private  float      x, y; //position
-  private  float      cx, cy; //puppet center
+  private  float      x, y;  //
+  private  float      px, py; //current relative puppet center (puppet position)
+  private  float      cx, cy; //absolute puppet center
   private  PVector[]  p = {new PVector(125, 100), new PVector(275, 100), new PVector(200, 260)};
   private  int        angleAvatar = 0;
   
@@ -15,14 +16,19 @@ class Avatar {
     this.y = height/2;
   }
   
+  private void coordinates() {
+    this.x -= this.cx;
+    this.y -= this.cy;
+  }
+  
   public int joints() {
     return Joints;
   }
   
   public void draw() {
-    translate(-cx, -cy);
+    coordinates();
     shape(puppet, this.x, this.y);
-    translate(cx, cy);
+    println("x=" + this.x + ", " + "y=" + this.y);
   }
   
   public void draw(float x, float y) {
@@ -42,10 +48,9 @@ class Avatar {
     this.draw(x, y);
     for(int i=0; i < this.joints(); i++) {
       fill(255, 100, 80);
-      translate(-this.cx, -this.cy);
-      rotate(radians(getAngleAvatar()));
+      translate(-this.cx + x, -this.cy + y);
       ellipse(p[i].x, p[i].y, 10, 10);
-      translate(this.cx, this.cy);
+      translate(this.cx - x, this.cy - y);
     }
   }
   
